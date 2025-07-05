@@ -52,7 +52,7 @@ def login():
 
     
     return render_template("login.html")
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["POST, GET"])
 def register():
     if request.method == "POST":
         user_id = request.form.get("user_id")
