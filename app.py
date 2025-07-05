@@ -38,7 +38,7 @@ def login():
             return render_template("error.html", message="Do not leave blanks")
         
         db = get_db()
-        cursor = db.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
+        cursor = db.execute("SELECT user_id, password FROM users WHERE user_id = ?", (user_id,))
         user = cursor.fetchone()
 
         if not user:
