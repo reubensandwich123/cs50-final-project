@@ -21,7 +21,7 @@ def get_db():
 
 
 
-@app.route("/")
+@app.route("/dashboard")
 def index():
     if session.get("user_id") == None:
         return redirect("/register")
@@ -48,7 +48,7 @@ def login():
         if not (check_password_hash((user["password"]), password)): #Wrong password
             return render_template('error.html')
         session["user_id"] = user_id
-        return redirect("/")
+        return redirect("/dashboard")
 
 
     return render_template("login.html")
