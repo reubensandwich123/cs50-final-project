@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Error</title>
-</head>
-<body>
-    <div class="error-container">
-        {{ message }}
-    </div>
-    <div class="login-register-box">
-        <form action="/login" method="get">
-            <button>Log In</button>
-        </form>
-        <form action="/register" method="get">
-            <button>Register</button>
-        </form>
-    </div>
-</body>
-</html>
+{% extends "layout.html" %}
+
+    {% block title %}Error{% endblock %}
+    {% block main %}
+        <div class="error-container">
+            {{ message }}
+        </div>
+        <div class="login-register-box">
+            <form action="/login" method="get">
+                <button>Log In</button>
+            </form>
+            <form action="/register" method="get">
+                <button>Register</button>
+            </form>
+        </div>
+    {% endblock %}

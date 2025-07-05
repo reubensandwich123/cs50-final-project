@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title></title>
-</head>
-<body>
-    index page
+{% extends "layout.html" %}
+
+    {% block title %}Dashboard{% endblock %}
+    {% block main %}
+    <div>
+        Hello {{ name }}!
+    </div>
     <form action="/login" method="get">
         <button>Log Out</button>
     </form>
-</body>
-</html>
+    {% endblock %}
+
+
+
+
