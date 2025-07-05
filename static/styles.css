@@ -1,12 +1,43 @@
 .login-container{
     display: flex;
+    min-height: 658px;
+    justify-content: center;
+    align-items: center;
+
+}
+.login-box{
+
+
+
+}
+
+
+.navbar-brand{
+    font-family: monospace;
+    font-size: 2.5rem;
+}
+.card{
+    text-align: center;
+    width: 25rem;
+}
+.card-container{
+    display: flex;
     justify-content: center;
     min-height: 658px;
     align-items: center;
 }
-.login-box{
-
+.navbar{
+    height: 100px;
 }
+
+
+
+
+
+
+
+
+
 .loginBtn{
 
 }
