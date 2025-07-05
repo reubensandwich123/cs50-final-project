@@ -12,6 +12,12 @@
 }
 
 
+
+
+
+
+
+
 navbar-2{
     margin-bottom: 40px;
 }
@@ -20,34 +26,57 @@ navbar-2{
     font-size: 2.5rem;
 }
 
+.navbar{
+    height: 100px;
+}
+
+
 
 
 .btn-primary{
     margin-top: 20px;
 }
+
+
+
 .card{
 
-    background: rgba(227, 225, 220, 0.57);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4.9px);
-    -webkit-backdrop-filter: blur(4.9px);
-    text-align: center;
-    width: 25rem;
+    width: 370px;
+  height: 590px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 18px 9px rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
 }
 .card-container{
     display: flex;
     justify-content: center;
     min-height: 658px;
     align-items: center;
-    background-color:#e5e3de;
+    background: url("background.png");
+
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-body form{
+    text-align: center;
 }
 .user-id-input{
     margin-bottom: 10px;
 }
-.navbar{
-    height: 100px;
-}
+
 
 
 
