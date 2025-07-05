@@ -24,9 +24,9 @@ def get_db():
 @app.route("/")
 def index():
     if session.get("user_id") == None:
-        return redirect("/login")
-    return render_template("index.html")
-        
+        return redirect("/register")
+    return render_template("index.html", name=session["user_id"])
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
@@ -36,34 +36,41 @@ def login():
 
         if not user_id or not password:
             return render_template("error.html", message="Do not leave blanks")
-        
+
         db = get_db()
         cursor = db.execute("SELECT user_id, password FROM users WHERE user_id = ?", (user_id,))
         user = cursor.fetchone()
 
         if not user:
             return render_template('error.html', message="User_id does not exist")
-        
-     
+
+
         if not (check_password_hash((user["password"]), password)): #Wrong password
             return render_template('error.html')
         session["user_id"] = user_id
         return redirect("/")
 
-    
+
     return render_template("login.html")
 @app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "POST":
         user_id = request.form.get("user_id")
         password = request.form.get('password')
+        confirm_password = request.form.get("confirm_pass")
         if not user_id or not password:
             return render_template("error.html", message="Do not leave blanks!")
-
-        hashed_password = generate_password_hash(password)
+        if (confirm_password != password):
+            return render_template("error.html", message="Passwords do not match!")
         db = get_db()
+        cursor = db.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
+        user = cursor.fetchone()
+        if (user):
+            return render_template("error.html", message="User already exists, please log in!")
+        hashed_password = generate_password_hash(password)
+
         db.execute("INSERT INTO users (user_id, password) VALUES (?, ?)", (user_id, hashed_password))
         db.commit()
-        
+
         return redirect("/login")
     return render_template("register.html")
