@@ -2,9 +2,36 @@
 
 {% block title %}Login{% endblock %}
 
-{% block main %}
 
-    <input type="text" placeholder="user_id" name="user_id" autocomplete="off" required autofocus>
-    <input type="password" placeholder="password" name="password" autocomplete="off" required>
+
+
+{% block main %}
+    
+    <div class="card-container">
+        <div class="card">
+        <img src="/static/app_logo.png" class="card-img-top" alt="logo">
+        <div class="card-body">
+            <h5 class="card-title">Log In</h5>
+            <form action="/login" method="post">
+                <input class="user-id-input" type="text" placeholder="user_id" name="user_id" autocomplete="off" required autofocus>
+                <input type="password" placeholder="password" name="password" autocomplete="off" required> <br>
+                <button class="btn btn-primary">Log In</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

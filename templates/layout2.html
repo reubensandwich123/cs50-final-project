@@ -9,15 +9,6 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-        <div class="card" style="width: 18rem;">
-        <img src="app_logo.png" class="card-img-top" alt="logo">
-        <div class="card-body">
-            <h5 class="card-title">Log In</h5>
-            <form action="/login" method="post">
-                {% block main %}{% endblock %}
-                <button class="btn btn-primary">Log In</button>
-            </form>
-        </div>
-        </div>
+    {% block main %}{% endblock %}
 </body>
 </html>
