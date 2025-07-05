@@ -1,6 +1,8 @@
 .login-container{
     display: flex;
-    justify-content: center
+    justify-content: center;
+    min-height: 658px;
+    align-items: center;
 }
 .login-box{
 
