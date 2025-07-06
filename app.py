@@ -21,11 +21,11 @@ def get_db():
 
 
 
-@app.route("/dashboard")
+@app.route("/")
 def index():
     if session.get("user_id") == None:
-        return redirect("/register")
-    return render_template("index.html", name=session["user_id"])
+        return redirect("/intro")
+    return render_template("dashboard.html", name=session["user_id"])
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -48,7 +48,7 @@ def login():
         if not (check_password_hash((user["password"]), password)): #Wrong password
             return render_template('error.html')
         session["user_id"] = user_id
-        return redirect("/dashboard")
+        return redirect("/")
 
 
     return render_template("login.html")
@@ -74,3 +74,7 @@ def register():
 
         return redirect("/login")
     return render_template("register.html")
+
+@app.route("/intro", methods=["GET"])
+def intro():
+    return render_template("intro.html")
