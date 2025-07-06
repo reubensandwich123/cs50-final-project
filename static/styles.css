@@ -152,7 +152,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("background.jpg");
+    background: url("/static/background.png");
 }
 
 
