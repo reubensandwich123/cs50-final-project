@@ -1,13 +1,3 @@
-html, body{
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  overscroll-behavior: none; /* Prevent bounce on scroll */
-  background: url('/your/background.jpg') no-repeat center center fixed;
-  background-size: cover;
-
-}
 
 
 
@@ -19,7 +9,6 @@ html, body{
     align-items: center;
 
 }
-
 
 
 
@@ -61,7 +50,9 @@ navbar-2{
 
 
 .card {
-  width: 400px;
+  
+  max-width: 400px;
+  width: 90%;
   height: 239px;
   background: rgba(255, 255, 255, 0.15);
   -webkit-backdrop-filter: blur(20px);
@@ -109,7 +100,8 @@ navbar-2{
 
 
 .card-register {
-  width: 400px;
+  max-width: 400px;
+  width:90%;
   height: 244px;
   display: flex;
   background: rgba(255, 255, 255, 0.15);
@@ -167,7 +159,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("background.jpg");
+    background: url("/static/background.png");
 }
 
 
@@ -225,20 +217,11 @@ navbar-2{
 .intro-grid{
   display: grid;
   font-family: "Poppins";
-  grid-template-rows: 100px;
-  grid-template-columns: 500px;
+  grid-template-columns: 1fr;
   justify-content: center;
+  justify-items: center;
 
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -253,7 +236,7 @@ navbar-2{
   justify-content: space-evenly;
   min-height: 674px;
   align-items: center;
-  background: url(background.jpg)
+  background: url(/static/background.png)
 }
 .intro-background{
   height: 500px;
@@ -278,7 +261,8 @@ navbar-2{
   align-items: center;
   justify-self: center;
   height: 325px;
-  width: 400px;
+  width: 90%;
+  max-width: 400px;
   background: rgba(255, 255, 255, 0.05);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
@@ -293,7 +277,7 @@ navbar-2{
   overflow: hidden;
 }
 
-.intro-card::before {
+.intro-card-para::before {
   content: '';
   position: absolute;
   top: 0;
@@ -308,7 +292,7 @@ navbar-2{
   );
 }
 
-.intro-card::after {
+.intro-card-para::after {
   content: '';
   position: absolute;
   top: 0;
@@ -321,4 +305,19 @@ navbar-2{
     transparent,
     rgba(255, 255, 255, 0.3)
   );
+}
+
+
+@media (max-width: 768px) {
+  .intro-container {
+    flex-direction: column;
+    height: auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+
+  .intro-background {
+    width: 80%;
+    height: auto;
+  }
 }
