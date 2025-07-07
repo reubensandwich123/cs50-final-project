@@ -25,7 +25,7 @@
                     <a class="nav-link" href="#">Transactions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Upload</a>
+                    <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('login') }}">Log Out</a>
@@ -48,6 +48,42 @@
             </div>
         </div>
         </nav>
+        <div class="grid-container">
+            <div class="grid-card">
+                <div class="grid-card-title">
+                    Last Month's Spending
+                </div>
+                <div class="grid-card-text">
+                    Total: <br>
+                    Daily Average: <br>
+                    Compared to previous:
+                </div>
+                <button class="grid-button">View History</button>
+            </div>
+            <div class="grid-card">
+                <div class="grid-card-title">
+                    Balance history
+                </div>
+                <div class="grid-card-text">
+                    Balance as of
+
+                </div>
+                <button class="grid-button">View History</button>
+            </div>
+
+            <div class="grid-card">
+                <div class="grid-card-title">
+                    Transactions
+                </div>
+                <button class="grid-button">View Transactions</button>
+            </div>
+            <div class="grid-card">
+                <div class="grid-card-title">
+                    This Month's Spending
+                </div>
+                <button class="grid-button">View History</button>
+            </div>
+        </div>
 
 
     {% endblock %}

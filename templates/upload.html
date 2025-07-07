@@ -51,6 +51,22 @@
         </div>
         </nav>
 
+        <div class="upload-instructions">
+            Upload your bank's e-statements here!
+
+        </div>
+
+        <div class="upload-file">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="application/pdf">
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+
+        <div>
+            {{ test }}
+        </div>
+
 
 
 
