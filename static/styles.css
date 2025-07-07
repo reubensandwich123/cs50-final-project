@@ -9,11 +9,6 @@
     align-items: center;
 
 }
-.login-box{
-
-
-
-}
 
 
 
@@ -164,7 +159,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("background.jpg");
+    background: url("/static/background.png");
 }
 @media (max-width: 768px){
   .card-container{
@@ -172,7 +167,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("resized_background.jpg");
+    background: url("/static/resized_background.jpg");
     background-size: cover;
     background-position: center;
   background-repeat: no-repeat;
@@ -242,16 +237,6 @@ navbar-2{
 
 
 
-
-
-
-
-
-
-
-.loginBtn{
-
-}
 .login-register-box{
     height: 300px;
     width: 300px;
@@ -263,7 +248,7 @@ navbar-2{
   justify-content: space-evenly;
   min-height: 674px;
   align-items: center;
-  background: url(background.jpg)
+  background: url(/static/background.png)
 }
 .intro-background{
   height: 500px;
@@ -355,7 +340,7 @@ navbar-2{
   display: flex;
   justify-content: space-evenly;
   min-height: 674px;
-  background: url(resized_background.jpg);
+  background: url(/static/resized_background.jpg);
   align-items: center;
   background-size: cover;
   background-position: center;
@@ -368,7 +353,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("resized_background.jpg");
+    background: url("/static/resized_background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
