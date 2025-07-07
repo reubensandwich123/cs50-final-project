@@ -9,6 +9,11 @@
     align-items: center;
 
 }
+.login-box{
+
+
+
+}
 
 
 
@@ -21,7 +26,7 @@ navbar-2{
     margin-bottom: 40px;
 }
 .navbar-brand{
-    font-family: monospace;
+    font-family: "Poppins";
     font-size: 2.5rem;
 }
 
@@ -50,7 +55,7 @@ navbar-2{
 
 
 .card {
-  
+
   max-width: 400px;
   width: 90%;
   height: 239px;
@@ -159,9 +164,21 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("/static/background.png");
+    background: url("background.jpg");
 }
+@media (max-width: 768px){
+  .card-container{
+    display: flex;
+    justify-content: center;
+    min-height: 676px;
+    align-items: center;
+    background: url("resized_background.jpg");
+    background-size: cover;
+    background-position: center;
+  background-repeat: no-repeat;
 
+}
+}
 
 .card-body{
     display: flex;
@@ -225,6 +242,16 @@ navbar-2{
 
 
 
+
+
+
+
+
+
+
+.loginBtn{
+
+}
 .login-register-box{
     height: 300px;
     width: 300px;
@@ -236,7 +263,7 @@ navbar-2{
   justify-content: space-evenly;
   min-height: 674px;
   align-items: center;
-  background: url(/static/background.png)
+  background: url(background.jpg)
 }
 .intro-background{
   height: 500px;
@@ -256,6 +283,7 @@ navbar-2{
   letter-spacing: 0.3px;
 
 }
+
 .intro-card-para {
   display: flex;
   align-items: center;
@@ -276,6 +304,7 @@ navbar-2{
   position: relative;
   overflow: hidden;
 }
+
 
 .intro-card-para::before {
   content: '';
@@ -320,4 +349,65 @@ navbar-2{
     width: 80%;
     height: auto;
   }
+}
+@media (max-width: 768px){
+  .intro-container{
+  display: flex;
+  justify-content: space-evenly;
+  min-height: 674px;
+  background: url(resized_background.jpg);
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+}
+@media (max-width: 768px){
+   .card-container{
+    display: flex;
+    justify-content: center;
+    min-height: 676px;
+    align-items: center;
+    background: url("resized_background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+}
+.logged-in{
+  padding-top: 100px;
+}
+.grid-card{
+  text-align: center;
+  font-family: "Poppins";
+  border: solid 1px red;
+  padding: 10px 10px 10px 10px;
+}
+.grid-button{
+  margin-top: 5px;
+}
+.grid-card-title{
+  font-size: 1.5rem;
+}
+.grid-card-text{
+  font-size: 0.8rem;
+}
+.grid-container{
+  margin-top: 30px;
+  display: grid;
+  border: solid 3px black;
+  grid-template-columns: repeat(2, 1fr)
+
+}
+.upload-instructions{
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-family: "Poppins";
+  text-align: center;
+}
+.upload-file{
+  text-align: center;
+  padding: 30px;
+  border: solid 2px black;
 }
