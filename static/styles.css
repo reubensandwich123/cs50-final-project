@@ -396,3 +396,19 @@ navbar-2{
   padding: 30px;
   border: solid 2px black;
 }
+.upload-status{
+  text-align: center;
+  font-family: "Poppins";
+  font-size: 1.6rem;
+  margin-top: 30px;
+}
+.upload-history{
+  font-family: "Poppins";
+  font-size: 1.3rem;
+  margin-top: 30px;
+  line-height: 1.8;
+}
+.upload-table{
+  border-spacing: 20px;
+  border-collapse: separate;
+}
