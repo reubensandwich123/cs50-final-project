@@ -1,12 +1,13 @@
 import re
 import os
+import json
 import pdfplumber
 import pandas as pd
 import matplotlib as plt
 from datetime import datetime
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_session import Session
-from cryptography.fernet import Fernet
+
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -98,10 +99,9 @@ def upload():
                 for page in pdf.pages:
                     page = page.extract_text()
                     text.append(page)
-
-        date_pattern = r"Account Summary\s+as\s(?:of|at)\s+(\d{1,2}\s[A-Z][a-z]{2}\s\d{4})"
         if not text:
             return render_template("error.html", message="Error extracting text!")
+        date_pattern = r"Account Summary\s+as\s(?:of|at)\s+(\d{1,2}\s[A-Z][a-z]{2}\s\d{4})"
         date = re.search(date_pattern, text[0])
         if not date:
             return render_template("error.html", message="Date not found!")
@@ -119,23 +119,57 @@ def upload():
             return render_template('error.html', message="Account owner details and address not found!")
         user_id = session["user_id"]
         db = get_db('statement.db')
-        db.execute("INSERT INTO statement (user_id, balance, date, account_details) VALUES (?, ?, ?, ?)", (user_id, balance, date, account_details))
-        db.commit()
-        list = []
-        list += {"date" : date, "balance" : balance, "account_details" : account_details}
+        cursor = db.execute("SELECT date FROM statement WHERE user_id = ?", (user_id,))
+        dates = cursor.fetchall()
+        records = []
+        cursor = db.execute("SELECT date, balance, account_details FROM statement WHERE user_id = ? ORDER BY id DESC", (user_id,))
+        rows = cursor.fetchall()
+        for row in rows: #Show existing information even when page is reloaded
+            records.append(dict(row))
+        for row in dates:
+            if str(date) == row["date"]:
+                return render_template("upload.html", message=f"You have already uploaded for {date}!", records=records)
 
-        return redirect("/upload")
+
+        records = [] #reset so that after this can include the new info
+
+
+
+        txt = json.dumps(text[1:])
+        db.execute("INSERT INTO statement (user_id, balance, date, account_details, txt) VALUES (?, ?, ?, ?, ?)", (user_id, balance, date, account_details, txt))
+        db.commit()
+        cursor = db.execute("SELECT date, balance, account_details FROM statement WHERE user_id = ? ORDER BY id DESC", (user_id,))
+        rows = cursor.fetchall()
+        records = []
+        for row in rows:
+            records.append(dict(row))
+        return render_template("upload.html", message="Success!", records=records)
     user_id = session["user_id"]
     db = get_db("statement.db")
-    cursor = db.execute("SELECT balance, date FROM statement WHERE user_id = ? ORDER BY id DESC LIMIT 1", (user_id,))
-    result = cursor.fetchone()
-    if result == None:
+    cursor = db.execute("SELECT balance, date, account_details FROM statement WHERE user_id = ?", (user_id,))
+    rows = cursor.fetchall()
+    if rows == None:
         return render_template("upload.html")
+    records = []
+    for row in rows:
+        records.append(dict(row))
+
+    return render_template("upload.html", records=records)
+
+@app.route("/analysis", methods=["GET", "POST"])
+def analysis():
+    db = get_db("statement.db")
+    cursor = db.execute("SELECT txt FROM statement WHERE user_id = ?", (session["user_id"],))
+    message = cursor.fetchall()
+    result = []
+    for item in message:
+        item = json.loads(item["txt"])
+        result.append(item)
+    return render_template("analysis.html", results=result)
 
 
-
-
-
+def to_dataframe(list_of_dicts):
+    return pd.DataFrame(list_of_dicts)
 
 
 
