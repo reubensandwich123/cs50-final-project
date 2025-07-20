@@ -9,6 +9,11 @@
     align-items: center;
 
 }
+.login-box{
+
+
+
+}
 
 
 
@@ -159,7 +164,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("/static/background.png");
+    background: url("background.jpg");
 }
 @media (max-width: 768px){
   .card-container{
@@ -167,7 +172,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("/static/resized_background.jpg");
+    background: url("resized_background.jpg");
     background-size: cover;
     background-position: center;
   background-repeat: no-repeat;
@@ -237,6 +242,16 @@ navbar-2{
 
 
 
+
+
+
+
+
+
+
+.loginBtn{
+
+}
 .login-register-box{
     height: 300px;
     width: 300px;
@@ -248,7 +263,7 @@ navbar-2{
   justify-content: space-evenly;
   min-height: 674px;
   align-items: center;
-  background: url(/static/background.png)
+  background: url(background.jpg)
 }
 .intro-background{
   height: 500px;
@@ -340,7 +355,7 @@ navbar-2{
   display: flex;
   justify-content: space-evenly;
   min-height: 674px;
-  background: url(/static/resized_background.jpg);
+  background: url(resized_background.jpg);
   align-items: center;
   background-size: cover;
   background-position: center;
@@ -353,7 +368,7 @@ navbar-2{
     justify-content: center;
     min-height: 676px;
     align-items: center;
-    background: url("/static/resized_background.jpg");
+    background: url("resized_background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -366,23 +381,28 @@ navbar-2{
 .grid-card{
   text-align: center;
   font-family: "Poppins";
-  border: solid 1px red;
+
   padding: 10px 10px 10px 10px;
 }
 .grid-button{
   margin-top: 5px;
 }
 .grid-card-title{
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  border: 3px solid black;
+  margin-bottom: 20px;
+  font-family: "Poppins";
 }
 .grid-card-text{
-  font-size: 0.8rem;
+  font-size: 1.2rem;
+  border: 2px dotted black;
 }
 .grid-container{
   margin-top: 30px;
   display: grid;
-  border: solid 3px black;
-  grid-template-columns: repeat(2, 1fr)
+  border: solid 4px black;
+  grid-template-columns: repeat(1, 0.7fr);
+  justify-content: center;
 
 }
 .upload-instructions{
@@ -411,4 +431,71 @@ navbar-2{
 .upload-table{
   border-spacing: 20px;
   border-collapse: separate;
+  font-family: "Poppins";
+}
+.section-title{
+  font-family: "Poppins";
+  text-align: center;
+}
+.list-item{
+  font-size: 2rem;
+}
+.transactions-above-table{
+  border-spacing: 10px;
+  font-family: "Poppins";
+  font-size: 1rem;
+  border-collapse: separate;
+  width: 100%;
+}
+.transactions-above-table th{
+  text-align: center;
+}
+.count_value{
+  font-family: "Poppins";
+  font-size: 2rem;
+  text-align: center;
+}
+.select_stat{
+  font-size: 1.5rem;
+}
+.dash-stat{
+
+
+}
+.transactions-table{
+  display: flex;
+  justify-content: center;
+  border-spacing: 10px;
+  text-align: center;
+  width: 100%;
+  font-family: "Poppins";
+  font-size: 1.4rem;
+}
+.transactions{
+  border-collapse: separate;
+  border-spacing: 20px;
+}
+.balance-history-table{
+  font-family: "Poppins";
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  border-spacing: 10px;
+  border-collapse: separate;
+  text-align: center;
+}
+.greeting{
+  display: flex;
+  font-size: 2.5rem;
+  font-family: "Poppins";
+  justify-content: center;
+  margin-bottom: 20px;
+
+}
+.error-container{
+  display: flex;
+  align-items: center;
+  font-family: "Poppins";
+  font-size: 1.9rem;
+  flex-direction: column;
 }
