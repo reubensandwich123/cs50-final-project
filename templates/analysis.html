@@ -125,7 +125,7 @@
                         <form action="/analysis" method="post">
                             Bank statement for:
                             {% for item in dates %}
-                                <input type="radio" name="date" value="{{ item['date'] }}">{{ item["date"] }}
+                                <input type="radio" name="date" value="{{ item['date'] }}" checked>{{ item["date"] }}
                             {% endfor %}
                                 <div class="select_stat">Select statistic:</div>
                                 <input type="radio" name="radio" value="stacked">Deposits vs Withdrawals per week <br>
