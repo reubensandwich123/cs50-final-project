@@ -37,7 +37,7 @@
                     Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                    
+
                     <li><a class="dropdown-item" href="#">Delete Account</a></li>
                     <li><a class="dropdown-item" href="#">Feedback</a></li>
                     <li>
@@ -66,7 +66,7 @@
                         <form action="/analysis" method="post">
                         Bank statement for:
                         {% for item in dates %}
-                            <input type="radio" name="date" value="{{ item['date'] }}">{{ item["date"] }}
+                            <input type="radio" name="date" value="{{ item['date'] }}" checked>{{ item["date"] }}
                         {% endfor %}
                         <br>
                         <div class="select_stat">Select one statistic to display:</div>
@@ -79,13 +79,17 @@
                         <br>
                         <div class="select_stat">OR Select one custom statistic:</div>
                         <form action="/analysis" method="post">
+                        {% for item in dates %}
+                            <input type="radio" name="date" value="{{ item['date'] }}" checked>{{ item["date"] }}
+                        {% endfor %}
+                        <br> <br>
                         Withdrawals above:<input type="text" placeholder="Amount" name="text"> <br> <br>
-                        Deposits above:<input type="text" placeholder="Amount" name="text">
+                        Deposits above:<input type="text" placeholder="Amount" name="text"> <br> <br>
                         <button>Display</button>
                         </form>
                     </div>
                     <br>
-                        
+
 
                         <div>
 
