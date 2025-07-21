@@ -5,6 +5,7 @@
         <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FINalyze</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -19,10 +20,10 @@
                     <a class="nav-link-active" aria-current="page" href="{{ url_for('index') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Analysis</a>
+                    <a class="nav-link" href="{{ url_for('analysis')  }}">Analysis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Transactions</a>
+                    <a class="nav-link" href="{{ url_for('transactions') }}">Transactions</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
@@ -30,60 +31,81 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('login') }}">Log Out</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#">View profile</a></li>
-                    <li><a class="dropdown-item" href="#">Delete Account</a></li>
-                    <li><a class="dropdown-item" href="#">Feedback</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('delete') }}">Delete Account</a>
+                </li>
 
             </div>
             </div>
         </div>
         </nav>
+
         <div class="grid-container">
+            <div class="greeting">Welcome to Finalyze, {{ name }}!</div>
             <div class="grid-card">
                 <div class="grid-card-title">
-                    Last Month's Spending
+                    Latest Analysis Overview
                 </div>
                 <div class="grid-card-text">
-                    Total: <br>
-                    Daily Average: <br>
-                    Compared to previous:
+                    Total withdrawals:
+                    {% if withdrawal_sum %}
+                        <span class="dash-stat">{{ withdrawal_sum | money_format }}</span> as of {{ date }}
+                    {% else %}
+                        <span class="dash-stat">Please analyse the individual withdrawal stats in the analysis page first</span>
+                    {% endif %}
+                    <br>
+                    Daily Average:
+                    {% if daily_avg %}
+                        <span class="dash-stat">{{ daily_avg | money_format }}</span>
+                    {% endif %}
+                    <br>
+                    Compared to previous month:
+                    {% if percentage_change is not none %}
+                        <span class="dash-stat">{{ percentage_change | percentage_format }}</span>
+                    {% else %}
+                        <span class="dash-stat">{{ percentage_message }}</span>
+                    {% endif %}
                 </div>
-                <button class="grid-button">View History</button>
+
             </div>
             <div class="grid-card">
                 <div class="grid-card-title">
                     Balance history
                 </div>
                 <div class="grid-card-text">
-                    Balance as of
 
+                    {% if balance_history %}
+                    <table class="balance-history-table">
+                        <tr>
+                            <th>Date</th>
+                            <th>Balance</th>
+                        </tr>
+
+                    {% for item in balance_history %}
+                        <tr>
+                            <td class="dash-stat">{{ item["date"] }}</td>
+                            <td class="dash-stat">{{ item["balance"] | money_format}}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    {% else %}
+                        <div class="dash-start">Please analyse the statement first in the analysis page</div>
+                {% endif %}
                 </div>
-                <button class="grid-button">View History</button>
+
+
             </div>
+
 
             <div class="grid-card">
                 <div class="grid-card-title">
                     Transactions
                 </div>
-                <button class="grid-button">View Transactions</button>
+                <form action="{{ url_for('transactions') }}">
+                    <button class="grid-button">View Transactions</button>
+                </form>
+
             </div>
-            <div class="grid-card">
-                <div class="grid-card-title">
-                    This Month's Spending
-                </div>
-                <button class="grid-button">View History</button>
-            </div>
-        </div>
 
 
     {% endblock %}

@@ -1,13 +1,32 @@
+{% extends "layout.html" %}
 
+{% block title %}Error{% endblock %}
+
+{% block main %}
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">FINalyze</a>
+
+            </div>
+
+
+        </nav>
         <div class="error-container">
             {{ message }}
-        </div>
-        <div class="login-register-box">
-            <form action="/login" method="get">
-                <button>Log In</button>
-            </form>
-            <form action="/register" method="get">
-                <button>Register</button>
-            </form>
+            <br> <br>
+            <div class="login-box">
+                <form action="/login" method="get">
+                    <button>Log In</button>
+                </form>
+                <br>
+                <form action="/register" method="get">
+                    <button>Register</button>
+                </form>
+                <br>
+                <form action="/" method="get">
+                    <button>Back</button>
+                </form>
+            </div>
         </div>
 
+{% endblock %}

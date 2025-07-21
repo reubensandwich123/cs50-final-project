@@ -1,10 +1,13 @@
 {% extends "layout.html" %}
 
-{% block title %}Upload{% endblock %}
+
+
+
+{% block title %}Transactions{% endblock %}
 
 {% block main %}
 
-    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">FINalyze</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
@@ -24,10 +27,10 @@
                     <a class="nav-link" href="{{ url_for('analysis')  }}">Analysis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('transactions') }}">Transactions</a>
+                    <a class="nav-link-active" href="{{ url_for('transactions') }}">Transactions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link-active" href="{{ url_for('upload') }}">Upload</a>
+                    <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('login') }}">Log Out</a>
@@ -37,7 +40,7 @@
                     Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                   
+                 
                     <li><a class="dropdown-item" href="#">Delete Account</a></li>
                     <li><a class="dropdown-item" href="#">Feedback</a></li>
                     <li>
@@ -51,44 +54,44 @@
         </div>
         </nav>
 
-        <div class="upload-instructions">
-            Upload your bank's e-statement here!
+        <div class="transactions-table">
+            <table class="transactions">
+                <tr class="headers">
 
-        </div>
+                    <th>Date</th>
+                    <th>Transaction type</th>
+                    <th>Withdrawal</th>
+                    <th>Deposit</th>
+                    <th>Balance</th>
 
-        <div class="upload-file">
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" accept="application/pdf">
-                <input type="submit" value="Upload">
-            </form>
-        </div>
-
-        <div class="upload-status">
-
-             {{ message }}
-        </div>
-        <div class="upload-history">
-            <table class="upload-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Balance</th>
-                        <th>Account details</th>
-                    </tr>
-                </thead>
-            <tbody>
-            {% for item in records %}
-                <tr>
-                    <td>{{ item["date"] }}</td>
-                    <td>{{ item["balance"] }}</td>
-                    <td>{{ item["account_details"] }}</td>
                 </tr>
-            {% endfor %}
-            </tbody>
+                {% if transactions %}
+                    {% for item in transactions %}
+                        <tr>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.type }}</td>
+                            {% if item.withdrawal %}
+                                <td>{{ item.withdrawal | money_format }}</td>
+                                <td>-</td>
+                            {% else %}
+                                <td>-</td>
+                                <td>{{ item.deposit | money_format }}</td>
+                            {% endif %}
+                            <td>{{ item.balance | money_format }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                        <h2>Please upload a statement!</h2>
+                {% endif %}
+
             </table>
         </div>
 
 
 
 
+
+
 {% endblock %}
+
+

@@ -24,7 +24,7 @@
                     <a class="nav-link-active" href="{{ url_for('analysis')  }}">Analysis</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Transactions</a>
+                    <a class="nav-link" href="{{ url_for('transactions') }}">Transactions</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
@@ -37,7 +37,7 @@
                     Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#">View profile</a></li>
+                    
                     <li><a class="dropdown-item" href="#">Delete Account</a></li>
                     <li><a class="dropdown-item" href="#">Feedback</a></li>
                     <li>
@@ -51,14 +51,113 @@
         </div>
         </nav>
         <div>
-            {% for item in results %}
-                {{ item }}
-            {% endfor %}
+<div>
+
+
+
+</div>
+
         </div>
 
+            <div class="grid-container">
+                <h1 class="section-title">Individual Summary Statistics</h1>
+                <div class="grid-card">
+                    <div class="grid-title">
+                        <form action="/analysis" method="post">
+                        Bank statement for:
+                        {% for item in dates %}
+                            <input type="radio" name="date" value="{{ item['date'] }}">{{ item["date"] }}
+                        {% endfor %}
+                        <br>
+                        <div class="select_stat">Select one statistic to display:</div>
+                        <input name="radio" value="ABT" type="radio">Account Balance Trajectory <br>
+                        <input type="radio" name="radio" value="IDS">Individual Deposit Statistics <br>
+                        <input type="radio" name="radio" value="IWS">Individual Withdrawal Statistics <br>
+                        <br>
+                        <button>Display</button>
+                        </form>
+                        <br>
+                        <div class="select_stat">OR Select one custom statistic:</div>
+                        <form action="/analysis" method="post">
+                        Withdrawals above:<input type="text" placeholder="Amount" name="text"> <br> <br>
+                        Deposits above:<input type="text" placeholder="Amount" name="text">
+                        </form>
+                    </div>
+                    <br>
+                        <button>Display</button>
+
+                        <div>
+
+                            {% if statistic %}
+                                <ul>
+                                {% for key, value in statistic.items() %}
+                                    {% if key == 'count' %}
+                                        <li class="list-item">{{ key }}: {{ value }}</li>
+                                    {% else %}
+                                        <li class="list-item">{{ key }}: {{ value | money_format}}</li>
+                                    {% endif %}
+
+                                {% endfor %}
+                                </ul>
 
 
 
+                            {% endif %}
+
+                            {% if plot %}
+                                <img src="{{ url_for('plot') }}" alt="Account Balance Trajectory">
+
+
+
+                            {% endif %}
+                            {% if count %}
+
+                               <div class="count_value"> Number of transactions:  {{ count }}</div>
+                            {% endif %}
+                            {% if table %}
+                                {{ table | safe }}
+                            {% endif %}
+
+                        </div>
+                </div>
+
+            </div>
+            <div class="grid-container">
+                <h1 class='section-title'>Grouped Summary Statistics</h1>
+                <div class="grid-card">
+                    <div class="grid-title">
+                        <form action="/analysis" method="post">
+                            Bank statement for:
+                            {% for item in dates %}
+                                <input type="radio" name="date" value="{{ item['date'] }}">{{ item["date"] }}
+                            {% endfor %}
+                                <div class="select_stat">Select statistic:</div>
+                                <input type="radio" name="radio" value="stacked">Deposits vs Withdrawals per week <br>
+                                <input type="radio" name="radio" value="count_per_type">Transaction Count by type <br>
+                                <input type="radio" name="radio" value="box-plot">Withdrawals and Deposits box plot (y limit: 99 percentile of deposits, sum outliers will not be shown)
+
+
+                                <br> <br>
+                                <button>Display</button>
+                        </form>
+
+                    </div>
+                        <div>
+                            {% if stacked %}
+                                <img src="{{ url_for('plot2') }}" alt="Deposits vs Withdrawals">
+                            {% endif %}
+                            {% if bar_chart %}
+                                <img src="{{ url_for('plot3') }}" alt="Transaction count by type">
+                            {% endif %}
+                            {% if box_plot %}
+                                <img src="{{ url_for('plot4') }}" alt="Withdrawals and deposits box plot">
+                            {% endif %}
+                        </div>
+                </div>
+            </div>
+
+
+            {{ text }}
 
 
 {% endblock %}
