@@ -239,7 +239,6 @@ def analysis():
     if request.method == "POST":
         selected_date = request.form.get("date")
         session["selected_date"] = selected_date
-        count = 0
         user_id = session["user_id"]
         db = get_db("analysis.db")
         db.execute("DELETE FROM analysis")
@@ -692,13 +691,13 @@ def percentage_format(value):
 def transactions():
     user_id = session["user_id"]
     db = get_db("statement.db")
-    cursor = db.execute("SELECT date FROM statement")
+    cursor = db.execute("SELECT date FROM statement WHERE user_id = ?", (user_id,))
     date = cursor.fetchone()
     if not date:
         return render_template("error.html", message="No date")
     date = str(date[0])
     new_date = date[:7] + "%"
-    print(new_date)
+    
     db.close()
     db = get_db("analysis.db")
     cursor = db.execute("SELECT date, type, withdrawal, deposit, balance FROM analysis WHERE user_id = ? AND date LIKE ?", (user_id, new_date))
