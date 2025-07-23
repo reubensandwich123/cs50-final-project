@@ -85,7 +85,8 @@ def index():
         temp["balance"] = float(row[1].replace(",", ""))
 
         balance_history.append(temp)
-        db.close()
+        
+    db.close()
 
     previous_withdrawal_sum = 0
     if result:
@@ -182,6 +183,7 @@ def upload():
         date = date.group(1).strip()
         date = datetime.strptime(date, "%d %b %Y")
         date = date.date()
+        session["year"] = date.year 
         user_id = session["user_id"]
         balance_pattern = r"Summary of Currency Breakdown:\s*SGD\s*([\d,]+\.\d{2})"
         balance = re.search(balance_pattern, text[0]).group(1).strip()
@@ -458,7 +460,7 @@ def analysis():
         else:
             actual_date = actual_date.strip()
             actual_date = datetime.strptime(actual_date, "%d%b")
-            actual_date = actual_date.replace(year=2025)
+            actual_date = actual_date.replace(year=session["year"])
             actual_date = actual_date.date()
 
 
@@ -533,7 +535,6 @@ def generate_dataframe(month, year):
     df = pd.read_sql_query(query, db, params=params)
     if df.empty:
         return render_template('error.html', message="Could not generate dataframe, try again ")
-    db.close()
     df = df.set_index("date")
     df.index = pd.to_datetime(df.index)
     df = df.sort_values("date", ascending=True) #chronological
