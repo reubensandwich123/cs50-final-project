@@ -199,7 +199,7 @@ def upload():
             return render_template('error.html', message="Account owner details and address not found!")
 
         db = get_db('statement.db')
-        cursor = db.execute("SELECT date FROM statement WHERE user_id = ?", (user_id,))
+        cursor = db.execute("SELECT date FROM statement")
         dates = cursor.fetchall()
         records = []
         cursor = db.execute("SELECT date, balance, account_details FROM statement WHERE user_id = ? ORDER BY id DESC", (user_id,))
