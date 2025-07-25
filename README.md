@@ -1,67 +1,22 @@
+FINalyze: Manipulating and Visualizing Data For You
 
 
-# CS50 Final Project
 
-This repository contains my CS50 final project, a web application built with Flask that processes and analyzes financial data extracted from PDF bank statements. It features data visualization, advanced data handling, and modern UI design techniques.
+Video demo:
 
----
 
-## Features & Technologies Used
 
-* **PDF Data Extraction**
+Description
 
-  * Use of `pdfplumber` to extract text from bank statement PDFs
-  * Regular expressions (`re` module) to parse and extract relevant financial data
+My project - FINalyze is a website that extracts data from DBS/POSB bank eStatements for calculation and visualization. It consists of 7 main pages - Intro, Login, Register, Dashboard, Analysis, Transactions and Upload.
+In the introduction page, I give a brief description of Finalyze. In terms of design, I decided to use the CSS glassmorphism effect for the bootstrap cards and neumorphism for the buttons. There are two buttons, one to login and one to register.
+In the login page, I first clear the session with “session.clear()” so that session data is wiped if another user were to log in on the same browser. After checking that the user has entered a user_id and password, I establish a connection to “users.db” in order to check whether the user_id exists and if the password is correct. To do the latter, I made use of the “check_password_hash()” function from the “werkzeug.security” library. After ensuring that the user has an account, I redirect them to the dashboard page.
+In the register page, I use “request.form.get” to obtain the user_id and password that the user enters. If the user enters a different password under “confirm password”, I return the “error.html” template. Afterwards, I establish a connection to “users.db” to check if the user_id is already taken, meaning that someone or the user already has an account with that user_id. Lastly, if the user does not already have an account, I generate a secure password hash using “generate_password_hash” from the “werkzeug.security” library, before inserting it into “users.db”.
+In the dashboard, it first checks whether the user already has an existing session using “session.get”, redirecting the user to the “Intro” page if the user is new. Afterwards, I establish a connection to “stats.db” and “balance.db” using the “get_db” function defined above the “/” route. If the user has already uploaded and analysed eStatements in the past, the data fetched from the 2 databases above will allow statistics to be displayed under the “Latest Analysis Overview” and “Balance history” sections, such as the daily withdrawal average.
+In the upload page, I establish a connection to “statement.db” and use the user_id stored in the flask session to obtain any statements already uploaded by the user. If nothing has been uploaded, nothing will be displayed. If not, I append the details to a list “records”, before passing it to Flask’s “render_template” so that the contents of the list can be displayed in the html template. To allow the user to upload statements, I used “request.files.get” from Flask, making sure that I assign the “type” and “accept” attributes of the HTML input tag to “file” and “application/pdf” so that the user can only upload PDF files. Afterwards, using pdfplumber, I extract the text from the PDF and append it to a list called “text”, page by page. Next, I used the regex patterns: “Account Summary\s+as\s(?:of|at)\s+(\d{1,2}\s[A-Z][a-z]{2}\s\d{4})”, “Summary of Currency Breakdown:\sSGD\s([\d,]+.\d{2})" and “(?:cid:\d+cid:\d+cid:\d+)+\s*([\s\S]?)\s(?:cid:\d+cid:\d+cid:\d+)+" to extract the statement date, account balance at the end of that month, and the details of the bank account. Right after I extract the account balance, I connect to “balance.db” and insert the user_id, date and balance, so that I can use the data to show the “balance history” in the dashboard page. To check whether the user has already uploaded the statement previously, I use the “for row in dates” loop to check if any of the dates stored in “statement.db” matches the date of the latest upload by the user. Afterwards, I use “json.dumps(text[1:])” to convert the list containing the pages of text from the second page onwards into a json formatted string so that it can be inserted into the database. Finally, I select all the data from the database and pass it to render_template as a list of dictionaries, so that the details of the current upload will be displayed when the page refreshes.
+In the analysis page, I first display the date of the latest statement uploaded by connecting to “statement.db” before proceeding to select the pdf text stored in the database. Using the “.findall()” method in the Regular Expression (re) library, I extract the transaction amount, balance after transaction, post date (date at which transaction is recorded down on banking app) and actual date of transaction from the pdf text. This is done through the regex patterns: “([\d,]+.+\d{2})\s+([\d,]+.+\d{2})” and “(?P<post_date>\d{2}/\d{2}/\d{4})\s+(?P<type>.+?)(?:\s+(?P<real_date>\d{2}[A-Z]{3}))?(?=\s+\d{1,3}(?:,\d{3})*(?:.\d{2})?)” for amounts and dates respectively. To extract all the transactions, I loop through all the “values” obtained for amounts, making sure that I do not exceed the number of transaction types obtained under “match” by adding the condition “if i >= len(match): break”. This helps to prevent other numbers that match the regex pattern but are not transactions from being extracted. To determine whether or not a particular transaction was a deposit or withdrawal, I compared the balance after transaction to that before. If the balance after is greater than before, it means the transaction was a deposit, vice versa. I added the condition “if i == 0” to account for the first transaction, since the balance before that transaction would be the balance brought forward from the previous month. To identify the balance brought forward from the previous month, I made use of the regex pattern “Balance Brought Forward SGD ([\d,]+.\d{2})”. Afterwards, I insert all the results into “analysis.db”, making sure that I use “INSERT OR IGNORE” and create unique columns so that duplicates are prevented.
+In the HTML for my analysis page, I added a few radios that allow the user to pick certain statistics to display, such as “Account Balance Trajectory”, “Individual Withdrawal Statistics” and “Individual Deposit Statistics.” To display the date beside a radio, I connected to “statement.db” and selected the date associated with the user_id. Since the date obtained from the sql database will be in the form of a string, I used Python’s “datetime” module to convert the date into a datetime object with the format of “%Y-%m-%d”. This allowed me to pass the month and year into the function “generate_dataframe” which accepts the year and month as arguments and returns a dataframe with a datetime index, ultimately allowing me to display a time-series graph to show the account balance trajectory. For individual withdrawal and deposit statistics, I checked which radio button was selected using conditional statements, before making use of the dataframe generated to calculate statistics such as mean, median and sum via Pandas. Afterwards, I inserted some of the data into the “stats.db” database which will be used to display statistics in the dashboard. To allow the user to filter out transactions or deposits above a certain value, I provided input boxes that will take in a custom amount and display a list of transactions with a value above what was entered, and a tally of the total number of results. To do this, I first check for any input using “request.form.getlist” to both inputs. Using conditional statements, I first ensure that the list is not empty, returning the “error.html” template with an error message if the user did not enter any value. To obtain the list of transactions with a total count, I used the dataframe generated previously and subsetted the deposit or withdrawal column to display the deposits/withdrawals above the amount entered. Before converting the DataFrame into an HTML table with “.to_html()”, I used “.to_frame()” to convert the subsetted DataFrame from a Series back into a DataFrame, since selecting a single column returns a Series by default. This ensures that .to_html() can properly generate the table structure from the DataFrame. To get the total count, I used “len()” and assigned it to a variable “count”. Lastly, I pass the html table, count and dates to Flask’s render_template, ensuring that the date of the statement will still be shown even after the page refreshes. To allow the user to visualize data from their statement, I made use of Python’s Matplotlib library to plot different types of graphs suitable for each comparison, such as a line graph for account balance trajectory, a bar chart for transaction count by type and a stacked bar chart for a comparison between weekly withdrawals and deposits. To obtain the correct data for each axis, I used the functions in Pandas such as “.groupby()” to filter out specific columns and rows. To display the plot, I used the “io” library from Python to create a buffer to save the plot image. These buffers are used in the “plot” routes which allow the images to be displayed in the html template. Ultimately, this allows the user to view the graphs without having to download the images into their files.
+In the transactions page, it will display a table of all the transactions extracted from the eStatement. To do this, I first established a connection to “statement.db” and selected the date of the latest statement uploaded. Since I want to extract out the transactions by month, I slice the date using “date[:7]” which will leave behind only the year and month in the format “%Y-%m”. In order to query “analysis.db” for all the transaction information with a date LIKE the date sliced, I append “%” to the sliced date which will ignore the day of each transaction and return all the transactions for that particular month. To display the results in a HTML table, I create a list called “transactions” and loop through the results. For each iteration, I create a temporary dictionary called “temp” that will store the information for each transaction as key-value pairs and append it to “transactions”. Lastly, I pass the transactions list to Flask’s render_template so that I can loop through the list using Jinja and display the information in a HTML table.
+For my HTML templates, I utilized two base templates, layout.html and layout2.html, which include links to my CSS stylesheet and Bootstrap. Additionally, to ensure the website is fully responsive to different screen sizes and devices, I incorporated the meta viewport tag in the head section.
 
-* **Data Processing & Analysis**
-
-  * Construction of dataframes from lists of dictionaries for easy manipulation
-  * Use of `datetime` library to convert date strings into `datetime` objects, enabling time series analysis with pandas
-  * Storage and retrieval of dataframes in SQLite databases
-
-* **Web Application**
-
-  * Flask framework serving as the backend
-  * User authentication and session management
-  * File upload handling for bank statements
-
-* **Data Visualization**
-
-  * Matplotlib plots generated dynamically from dataframes
-  * Conversion of plots to PNG images in-memory using `BytesIO` buffers for serving via Flask’s `send_file`
-  * Customization of plot size (`figsize`), date formatting on x-axis (showing day only), and usage of colormaps for better aesthetics
-
-* **Frontend & Styling**
-
-  * Implementation of modern CSS design styles including **glassmorphism** and **neumorphism** for visually appealing user interfaces
-  * Jinja2 templating with custom filters:
-
-    * A monetary value formatter for currency display
-    * Use of `safe` filter to render raw HTML safely
-  * Conversion of pandas dataframes to HTML tables with `.to_html()` for displaying data on pages
-
----
-
-## How to Use
-
-1. **Upload Bank Statement PDF**
-   Upload your bank statement PDF through the web interface. The system will extract and parse the transaction data.
-
-2. **Analyze Transactions**
-   View detailed analyses such as total withdrawals, deposits, and transaction counts.
-
-3. **Visualize Data**
-   Access various interactive plots and charts representing your financial data trends.
-
----
-
-## Key Code Highlights
-
-* Regex extraction pattern examples for capturing dates and monetary values from PDFs
-* Dataframe manipulation using `to_frame()`, `reset_index()`, and filtering
-* Flask routes for handling uploads, analysis, and plotting with image buffers
-* SQL integration for persistent storage of user data and analyses
-* Use of matplotlib colormaps for color-coded plots enhancing readability
-
----
-
+*ChatGPT was used to fix grammatical errors
