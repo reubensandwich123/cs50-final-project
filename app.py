@@ -283,7 +283,7 @@ def analysis():
                             "min": round(deposits_only["deposit"].min(), 2)
                             }
 
-                db_2.execute("INSERT INTO stats (user_id, deposit_sum, withdrawal_sum, date) VALUES (?, ?, ?, ?)", (session["user_id"], deposit_dict["sum"], 0.0, date))
+                db_2.execute("INSERT OR IGNORE INTO stats (user_id, deposit_sum, withdrawal_sum, date) VALUES (?, ?, ?, ?)", (session["user_id"], deposit_dict["sum"], 0.0, date))
                 db_2.commit()
                 db_2.close()
                 db.close()
@@ -299,7 +299,7 @@ def analysis():
                         "max": round(withdrawals_only["withdrawal"].max(), 2),
                         "min": round(withdrawals_only["withdrawal"].min(), 2)
                     }
-                db_2.execute("INSERT INTO stats (user_id, deposit_sum, withdrawal_sum, date) VALUES (?, ?, ?, ?)", (session["user_id"], 0.0, withdrawal_dict["sum"], date))
+                db_2.execute("INSERT OR IGNORE INTO stats (user_id, deposit_sum, withdrawal_sum, date) VALUES (?, ?, ?, ?)", (session["user_id"], 0.0, withdrawal_dict["sum"], date))
                 db_2.commit()
                 db_2.close()
                 db.close()
@@ -703,7 +703,7 @@ def transactions():
     db = get_db("analysis.db")
     cursor = db.execute("SELECT date, type, withdrawal, deposit, balance FROM analysis WHERE user_id = ? AND date LIKE ?", (user_id, new_date))
     result = cursor.fetchall()
-    if not result:
+    if not result or len(result) < 10:
         return render_template("error.html", message="Please upload a bank eStatement and analyse it first")
     transactions = []
 

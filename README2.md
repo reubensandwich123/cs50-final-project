@@ -5,3 +5,14 @@ In addition to what I learned in CS50, I integrated Matplotlib and Pandas to han
 While the project meets its core objectives, I acknowledge that it has several limitations — particularly in terms of data storage structure, security, and performance efficiency. These are areas I aim to improve as I continue learning and refining my development skills.
 
 Despite the imperfections, I’ve chosen to share this project publicly as a reflection of my current capabilities, growth mindset and ambition. 
+
+Things to work on:
+- Handling conflicts between uploads of different users
+- Encrypting information of user uploads
+- 
+
+
+Areas of my project that I have improved:
+- Fixed issue where unique constraint violated due to multiple users uploading statement for the same date
+- Fixed issue where unique constraint violated due to the user analyzing both IDS and IWS, or each one multiple times
+-
