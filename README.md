@@ -3,7 +3,7 @@ FINalyze: Manipulating and Visualizing Data For You
 
 
 Video demo:
-
+https://youtu.be/lHkv61rTyX8?si=orJ6x4J-XAW75ntC
 
 
 Description
