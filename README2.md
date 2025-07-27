@@ -1,0 +1,7 @@
+This project is a beginner-level application that I developed as the final project for Harvard’s CS50 course. It was a valuable learning experience where I applied foundational concepts in Python, Flask, HTML, CSS, and SQL to build a functional web application from scratch.
+
+In addition to what I learned in CS50, I integrated Matplotlib and Pandas to handle data analysis and visualization — drawing from two separate courses I completed on data handling and Python libraries. This allowed me to experiment with plotting trends and summarizing data in a meaningful way within the application.
+
+While the project meets its core objectives, I acknowledge that it has several limitations — particularly in terms of data storage structure, security, and performance efficiency. These are areas I aim to improve as I continue learning and refining my development skills.
+
+Despite the imperfections, I’ve chosen to share this project publicly as a reflection of my current capabilities, growth mindset and ambition. 
