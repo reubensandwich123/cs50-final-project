@@ -9,10 +9,12 @@ Despite the imperfections, I’ve chosen to share this project publicly as a ref
 Things to work on:
 - Handling conflicts between uploads of different users
 - Encrypting information of user uploads
-- 
+- Balance history sometimes not working, when uploaded wrong file
+- Latest analysis overview unclear whether it's for latest upload or latest date
 
 
 Areas of my project that I have improved:
 - Fixed issue where unique constraint violated due to multiple users uploading statement for the same date
 - Fixed issue where unique constraint violated due to the user analyzing both IDS and IWS, or each one multiple times
--
+- Multiple users will be able to store balance entries even if their balances are the same, as the unique constraint is applied to the combination of user_id and date, not the balance value itself.
+

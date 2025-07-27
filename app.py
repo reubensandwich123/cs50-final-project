@@ -179,7 +179,7 @@ def upload():
         date_pattern = r"Account Summary\s+as\s(?:of|at)\s+(\d{1,2}\s[A-Z][a-z]{2}\s\d{4})"
         date = re.search(date_pattern, text[0])
         if not date:
-            return render_template("error.html", message="Date not found!")
+            return render_template("error.html", message="Upload a valid DBS/POSB pdf statement only!")
         date = date.group(1).strip()
         date = datetime.strptime(date, "%d %b %Y")
         date = date.date()
